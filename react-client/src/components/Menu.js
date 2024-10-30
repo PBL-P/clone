@@ -92,8 +92,8 @@ const Menu = () => {
   const [collapsed, setCollapsed] = useState(false); // State for collapsing
   const location = useLocation();
   
-  // URL의 첫 번째 경로 부분만 추출
-  const section = location.pathname.split('/')[1];
+  // URL의 첫 번째 경로 부분만 추출하고, `/`인 경우 `main`으로 변경
+  const section = location.pathname === '/' ? 'main' : location.pathname.split('/')[1];
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
