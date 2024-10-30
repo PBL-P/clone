@@ -11,3 +11,4 @@ module.exports = {
     idle: 10000
   }
 };
+//안녕!!! git 되나?? ㅎㅎ
