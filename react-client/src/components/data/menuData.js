@@ -11,9 +11,8 @@ export const menuData = [
 
 // 내용 안에 상단 Tabs 데이터
 export const tabs = [
-  { name: '주요 내용',  route: '', count: 10 },
-  { name: '제출',  route: 'submission', count: 5 },
-  { name: '공지사항',  route: 'notice', count: 5 },
+  { name: '주요 내용',  route: ' ', count: 10 },
+  { name: '제출',  route: 'submit', count: 5 },
 ];
 
 
