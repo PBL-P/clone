@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Title from "../components/Title";
-import Tabs from "../components/Tabs";
+import Title from "../../components/Title";
+import Tabs from "../../components/Tabs";
 import { useNavigate } from 'react-router-dom';
-import ProposalDataService from "../services/proposal.service";
+import ProposalDataService from "../../services/proposal.service";
 
-const Proposal = () => {
+const ProposalSubmit = () => {
     const navigate = useNavigate();
     const [proposals, setProposals] = useState([]);
 
     // 데이터를 가져오는 함수
     const retrieveProposals = () => {
-        ProposalDataService.getAll()
+        ProposalDataService.s_getAll()
             .then(response => {
                 setProposals(response.data);  // 데이터 상태 업데이트
                 console.log(response.data);
@@ -26,7 +26,7 @@ const Proposal = () => {
     
     // 제안서 삭제 함수
     const deleteProposal = (id) => {
-        ProposalDataService.delete(id)
+        ProposalDataService.s_delete(id)
             .then(response => {
                 console.log(response.data);
                 setProposals(proposals.filter(proposal => proposal.id !== id));  // 삭제된 항목 제거
@@ -38,7 +38,7 @@ const Proposal = () => {
 
     // 등록 버튼 클릭 시 실행될 함수
     const handleRegisterClick = () => {
-        navigate("/proposal/submit", {
+        navigate("/proposal/submit/register", {
 
         });
     };
@@ -46,7 +46,7 @@ const Proposal = () => {
 
     return (
         <>
-            <Title title="제안서 - 작성 방법 및 예시"/>
+            <Title title="제안서 - 제출 버전 관리"/>
             <Tabs />
 
             <>
@@ -105,4 +105,4 @@ const Proposal = () => {
     );
 }
 
-export default Proposal;
+export default ProposalSubmit;
