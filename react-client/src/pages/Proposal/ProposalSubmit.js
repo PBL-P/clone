@@ -38,11 +38,13 @@ const ProposalSubmit = () => {
 
     // 등록 버튼 클릭 시 실행될 함수
     const handleRegisterClick = () => {
-        navigate("/proposal/submit/register", {
-
-        });
+        navigate("/proposal/submit/register");
     };
-    
+
+    // 리스트 항목 클릭 시 상세 페이지로 이동
+    const handleProposalClick = (id) => {
+        navigate(`/proposal/submit/${id}`);
+    };
 
     return (
         <>
@@ -50,10 +52,9 @@ const ProposalSubmit = () => {
             <Tabs />
 
             <>
-                {/* 총 개수 + 검색 창 입력 */}
                 <div style={{display: "flex", justifyContent: "space-between", alignItems:"center", padding:"8px 24px", borderBottom:"1px solid rgba(0,0,0,0.1)"}}>
                     <div>
-                        <span>총 : {proposals.length}개</span> {/* 제안서 개수 표시 */}
+                        <span>총 : {proposals.length}개</span>
                     </div>
                     <div>
                         <input type="text" placeholder="Search..."/>
@@ -61,7 +62,6 @@ const ProposalSubmit = () => {
                     </div>
                 </div>
 
-                {/* 테이블 리스트 */}
                 <div style={{padding: "4px 24px"}}>
                     <table className="table">
                         <thead>
@@ -71,17 +71,22 @@ const ProposalSubmit = () => {
                                 <th scope="col">팀명</th>
                                 <th scope="col">팀원</th>
                                 <th scope="col">날짜</th>
-                                <th scope="col">작업</th> {/* 작업 열 추가 */}
+                                <th scope="col">작업</th>
                             </tr>
                         </thead>
                         <tbody>
                             {proposals.map((proposal, index) => (                                                             
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th>
-                                    <td>{proposal.title}</td>
+                                    <td
+                                        style={{ cursor: 'pointer', color: '#007bff' }}
+                                        onClick={() => handleProposalClick(proposal.id)}
+                                    >
+                                        {proposal.title}
+                                    </td>
                                     <td>{proposal.teamName}</td>                                    
                                     <td>{proposal.member}</td>
-                                    <td>{new Date(proposal.createdAt).toLocaleDateString('ko-KR')}</td> {/* 날짜 포맷팅 */}
+                                    <td>{new Date(proposal.createdAt).toLocaleDateString('ko-KR')}</td>
                                     <td>
                                         <button
                                             className="btn btn-danger btn-sm"
@@ -95,7 +100,6 @@ const ProposalSubmit = () => {
                         </tbody>
                     </table>
 
-                    {/* 등록하기 버튼 */}
                     <div style={{textAlign:"right"}}>
                         <button onClick={handleRegisterClick}>등록하기</button>
                     </div>
