@@ -15,7 +15,7 @@ class ProposalDataService {
   }
 
   update(id, data) {
-    return http.put(`/proposal/${id}`, data);
+    return http.put(`/proposal/register/${id}`, data);
   }
 
   delete(id) {
@@ -25,12 +25,10 @@ class ProposalDataService {
   deleteAll() {
     return http.delete(`/proposal`);
   }
-
-  
-  // 제안서 - 제출
-  s_findByTitle(title) {
+	findByTitle(title) {
     return http.get(`/proposal/submit?title=${title}`);
   }
+  // 제안서 - 제출
   s_getAll() {
     return http.get("/proposal/submit");  // proposals 경로로 변경
   }
@@ -44,7 +42,7 @@ class ProposalDataService {
   }
 
   s_update(id, data) {
-    return http.put(`/proposal/submit/${id}`, data);
+    return http.put(`/proposal/submit/register/${id}`, data);
   }
 
   s_delete(id) {
