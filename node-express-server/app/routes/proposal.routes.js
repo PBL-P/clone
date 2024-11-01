@@ -1,16 +1,17 @@
 module.exports = app => {
   const proposals = require("../controllers/proposal.controller.js");
+  const instructions = require("../controllers/instruction.controller.js");
 
   var router = require("express").Router();
 
   // 제안서 - 작성 방법 및 예시 관련 라우트
-  router.get("/proposal", proposals.getAll);
-  router.get("/proposal/:id", proposals.get);
-  router.post("/proposal/register", proposals.create);
-  router.put("/proposal/register/:id", proposals.update);
-  router.delete("/proposal/:id", proposals.delete);
-  router.delete("/proposal", proposals.deleteAll);
-  router.get("/proposal/search", proposals.findByTitle)
+  router.get("/proposal", instructions.findAll);
+  router.get("/proposal/:id", instructions.findOne);
+  router.post("/proposal/register", instructions.create);
+  router.put("/proposal/register/:id", instructions.update);
+  router.delete("/proposal/:id", instructions.delete);
+  router.delete("/proposal", instructions.deleteAll);
+  router.get("/proposal/search", instructions.findByTitle)
 
   // 제안서 - 제출 관련 라우트
   router.get("/proposal/submit", proposals.s_getAll);
