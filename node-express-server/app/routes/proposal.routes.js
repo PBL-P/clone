@@ -3,27 +3,25 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  // Create a new Proposal
-  // 제안서 라우트
-  router.post("/proposal/submit", proposals.create);
-
-  // Retrieve all Proposal
-  router.get("/proposal", proposals.findAll);
-
-  // Retrieve all published Proposal
-  router.get("/published", proposals.findAllPublished);
-
-  // Retrieve a single Proposal with id
-  router.get("/:id", proposals.findOne);
-
-  // Update a Proposal with id
-  router.put("/:id", proposals.update);
-
-  // Delete a Proposal with id
+  // 제안서 - 작성 방법 및 예시 관련 라우트
+  router.get("/proposal", proposals.getAll);
+  router.get("/proposal/:id", proposals.get);
+  router.post("/proposal/register", proposals.create);
+  router.put("/proposal/register/:id", proposals.update);
   router.delete("/proposal/:id", proposals.delete);
+  router.delete("/proposal", proposals.deleteAll);
+  router.get("/proposal/search", proposals.findByTitle)
 
-  // Delete all Proposal
-  router.delete("/", proposals.deleteAll);
+  // 제안서 - 제출 관련 라우트
+  router.get("/proposal/submit", proposals.s_getAll);
+  router.get("/proposal/submit/:id", proposals.s_get);
+  router.post("/proposal/submit/register", proposals.s_create);
+  router.put("/proposal/submit/register/:id", proposals.s_update);
+  router.delete("/proposal/submit/:id", proposals.s_delete);
+  router.delete("/proposal/submit", proposals.s_deleteAll);
+  router.get("/proposal/submit/search", proposals.s_findByTitle)
 
   app.use('/api', router);
 };
+
+// 승바승바
