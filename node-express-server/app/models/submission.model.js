@@ -1,26 +1,43 @@
 module.exports = (sequelize, Sequelize) => {
     const Submission = sequelize.define("submission", {
-      user_id: {
+      id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      document_id: {
+      document_type_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
-      content: {
+      title: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      teamName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      member: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      thought: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
-      file_name: {
+      fileName: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
-      file_path: {
+      filePath: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
     }, {
-      timestamps: true, // 생성일과 수정일 자동 관리
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
+      tableName: 'submission', // 명시적으로 테이블 이름 설정
+      timestamps: true,         // createdAt과 updatedAt 자동 관리
+      createdAt: 'createdAt',   // 생성일 필드
+      updatedAt: 'updatedAt',   // 수정일 필드
     });
   
     return Submission;

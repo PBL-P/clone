@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Instruction = sequelize.define("instruction", {
       document_type_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       title: {
         type: Sequelize.STRING,

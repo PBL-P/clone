@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ProposalDataService from "../services/proposal.service";
 import Title from "./Title";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
 const AddProposal = ({ text, kind }) => {
   const { id } = useParams(); 
   const navigate = useNavigate();
+  const location = useLocation(); // 현재 URL 경로 가져오기
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [teamName, setTeamName] = useState("");
@@ -17,9 +18,18 @@ const AddProposal = ({ text, kind }) => {
   const [submitted, setSubmitted] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
+  // document_key 설정
+  const getDocumentKey = () => {
+    if (location.pathname.includes("proposal")) return "pro";
+    if (location.pathname.includes("plan")) return "pl";
+    if (location.pathname.includes("design")) return "des";
+    if (location.pathname.includes("report")) return "rep";
+    return null; // 매칭되는 key가 없는 경우
+  };
+
   // 데이터 가져오기
-  useEffect(() => {
-    if (id) {
+  useEffect(() => {    
+    if (id) {          
       const fetchData = kind === "sample" ? ProposalDataService.get : ProposalDataService.s_get;
       fetchData(id)
         .then(response => {
@@ -38,8 +48,8 @@ const AddProposal = ({ text, kind }) => {
   const saveProposal = () => {
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('document_type_id', 1);
-
+    formData.append('document_type_id', getDocumentKey()); // document_key 설정
+  
     if (kind === "sample") {
       formData.append('content', content);
     } else if (kind === "version") {
@@ -47,19 +57,19 @@ const AddProposal = ({ text, kind }) => {
       formData.append('member', member);
       formData.append('thought', thought);
     }
-
+  
     if (file) {
-      formData.append('file', file); // 새 파일이 선택되면 추가
+      formData.append('file', file);
     } else if (existingFile) {
-      formData.append('file_name', existingFile); // 새 파일이 없을 경우 기존 파일 이름 추가
+      formData.append('file_name', existingFile);
     }
-
+  
     const saveFunction = (kind === "sample")
       ? (id ? ProposalDataService.update : ProposalDataService.create)
       : (id ? ProposalDataService.s_update : ProposalDataService.s_create);
-
+  
     const request = id ? saveFunction(id, formData) : saveFunction(formData);
-
+  
     request
       .then(response => {
         setSubmitted(true);
