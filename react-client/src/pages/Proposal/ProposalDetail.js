@@ -30,9 +30,18 @@ const ProposalDetail = () => {
                 {proposal ? (
                     <>
                         <h3>{proposal.title}</h3>
-                        <p><strong>내용:</strong> {proposal.member}</p>
-                        <p><strong>첨부파일:</strong> {proposal.thought}</p>
-                        <p><strong>작성일:</strong> {new Date(proposal.createdAt).toLocaleDateString('ko-KR')}</p>
+                        <p><strong>내용:</strong> {proposal.content}</p>
+                        <p>
+                            <strong>첨부파일:</strong>{" "}
+                            <a 
+                                href={`http://localhost:8080/${proposal.file_path}`} 
+                                download={proposal.file_name}
+                            >
+                                {proposal.file_name}
+                            </a>
+                        </p>
+                        <p><strong>작성일:</strong> {new Date(proposal.created_at).toLocaleDateString('ko-KR')}</p>
+                        <p><strong>수정일:</strong> {new Date(proposal.updated_at).toLocaleDateString('ko-KR')}</p>
                     </>
                 ) : (
                     <p>로딩 중...</p>

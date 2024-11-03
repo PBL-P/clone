@@ -1,10 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
-    const Instruction = sequelize.define("instruction", {
-      document_type_id: {
+    const Submission = sequelize.define("submission", {
+      user_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      title: {
-        type: Sequelize.STRING,
+      document_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       content: {
         type: Sequelize.TEXT,
@@ -16,11 +18,11 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
     }, {
-      timestamps: true, // timestamps 설정
+      timestamps: true, // 생성일과 수정일 자동 관리
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     });
   
-    return Instruction;
+    return Submission;
   };
   
