@@ -1,60 +1,62 @@
 import http from "../http-common";
 
 class ProposalDataService {
-  // 제안서 - 작성 방법 및 예시
+  // 작성 방법 관련 API
   getAll() {
-    return http.get("/proposal");  // proposals 경로로 변경
+    return http.get("/instructions");
   }
 
   get(id) {
-    return http.get(`/proposal/${id}`);
+    return http.get(`/instructions/${id}`);
   }
 
   create(data) {
-    return http.post("/proposal/register", data);
+    return http.post("/instructions", data);
   }
 
   update(id, data) {
-    return http.put(`/proposal/register/${id}`, data);
+    return http.put(`/instructions/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/proposal/${id}`);
+    return http.delete(`/instructions/${id}`);
   }
 
   deleteAll() {
-    return http.delete(`/proposal`);
+    return http.delete("/instructions");
   }
-	findByTitle(title) {
-    return http.get(`/proposal/submit?title=${title}`);
+
+  findByTitle(title) {
+    return http.get(`/instructions?title=${title}`);
   }
-  // 제안서 - 제출
+
+  // 제출 관련 API
   s_getAll() {
-    return http.get("/proposal/submit");  // proposals 경로로 변경
+    return http.get("/submissions");
   }
 
   s_get(id) {
-    return http.get(`/proposal/submit/${id}`);
+    return http.get(`/submissions/${id}`);
   }
 
   s_create(data) {
-    return http.post("/proposal/submit/register", data);
+    return http.post("/submissions", data);
   }
 
   s_update(id, data) {
-    return http.put(`/proposal/submit/register/${id}`, data);
+    return http.put(`/submissions/${id}`, data);
   }
 
   s_delete(id) {
-    return http.delete(`/proposal/submit/${id}`);
+    return http.delete(`/submissions/${id}`);
   }
 
   s_deleteAll() {
-    return http.delete(`/proposal/submit`);
+    return http.delete("/submissions");
   }
 
   s_findByTitle(title) {
-    return http.get(`/proposal/submit?title=${title}`);
+    return http.get(`/submissions?title=${title}`);
   }
 }
 
