@@ -1,26 +1,35 @@
 import React, { useState, useEffect } from "react";
 import ProposalDataService from "../services/proposal.service";
 import Title from "./Title";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
-
 const AddProposal = ({ text, kind }) => {
-  const { id } = useParams(); // useParams로 id 가져오기
+  const { id } = useParams(); 
   const navigate = useNavigate();
+  const location = useLocation(); // 현재 URL 경로 가져오기
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [teamName, setTeamName] = useState("");
   const [member, setMember] = useState("");
   const [thought, setThought] = useState("");
   const [file, setFile] = useState(null);
+  const [existingFile, setExistingFile] = useState(null); // 기존 파일 정보 저장
   const [submitted, setSubmitted] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
-  console.log(id);
-  
-  useEffect(() => {
-    if (id) {
+  // document_key 설정
+  const getDocumentKey = () => {
+    if (location.pathname.includes("proposal")) return "pro";
+    if (location.pathname.includes("plan")) return "pl";
+    if (location.pathname.includes("design")) return "des";
+    if (location.pathname.includes("report")) return "rep";
+    return null; // 매칭되는 key가 없는 경우
+  };
+
+  // 데이터 가져오기
+  useEffect(() => {    
+    if (id) {          
       const fetchData = kind === "sample" ? ProposalDataService.get : ProposalDataService.s_get;
       fetchData(id)
         .then(response => {
@@ -30,16 +39,17 @@ const AddProposal = ({ text, kind }) => {
           setTeamName(data.teamName || "");
           setMember(data.member || "");
           setThought(data.thought || "");
+          setExistingFile(data.file_name || null); // 기존 파일 이름 저장
         })
-        .catch(e => {
-          console.log(e);
-        });
+        .catch(e => console.log(e));
     }
   }, [id, kind]);
 
   const saveProposal = () => {
     const formData = new FormData();
     formData.append('title', title);
+    formData.append('document_type_id', getDocumentKey()); // document_key 설정
+  
     if (kind === "sample") {
       formData.append('content', content);
     } else if (kind === "version") {
@@ -47,21 +57,26 @@ const AddProposal = ({ text, kind }) => {
       formData.append('member', member);
       formData.append('thought', thought);
     }
+  
     if (file) {
       formData.append('file', file);
+    } else if (existingFile) {
+      formData.append('file_name', existingFile);
     }
-
-    const saveFunction = id
-      ? (kind === "sample" ? ProposalDataService.update : ProposalDataService.s_update)
-      : (kind === "sample" ? ProposalDataService.create : ProposalDataService.s_create);
-
-    saveFunction(id, formData)
+  
+    const saveFunction = (kind === "sample")
+      ? (id ? ProposalDataService.update : ProposalDataService.create)
+      : (id ? ProposalDataService.s_update : ProposalDataService.s_create);
+  
+    const request = id ? saveFunction(id, formData) : saveFunction(formData);
+  
+    request
       .then(response => {
         setSubmitted(true);
-        console.log(response.data);
+        console.log("Response:", response.data);
       })
       .catch(e => {
-        console.log(e);
+        console.log("Error:", e.response ? e.response.data : e.message);
       });
   };
 
@@ -155,6 +170,9 @@ const AddProposal = ({ text, kind }) => {
 
             <div className="form-group">
               <label htmlFor="file">파일 첨부</label>
+              {existingFile && (
+                <p>현재 파일: {existingFile}</p> // 기존 파일 이름 표시
+              )}
               <input
                 type="file"
                 className="form-control-file"

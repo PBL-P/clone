@@ -73,9 +73,9 @@ const Proposal = () => {
                             <tr>
                                 <th scope="col">번호</th>
                                 <th scope="col">제목</th>
-                                <th scope="col">팀명</th>
-                                <th scope="col">팀원</th>
-                                <th scope="col">날짜</th>
+                                <th scope="col">내용</th>
+                                <th scope="col">작성날짜</th>
+                                <th scope="col">수정날짜</th>
                                 <th scope="col">작업</th>
                             </tr>
                         </thead>
@@ -89,9 +89,9 @@ const Proposal = () => {
                                     >
                                         {proposal.title}
                                     </td>
-                                    <td>{proposal.teamName}</td>                                    
-                                    <td>{proposal.member}</td>
-                                    <td>{new Date(proposal.createdAt).toLocaleDateString('ko-KR')}</td>
+                                    <td>{proposal.content}</td>                                    
+                                    <td>{new Date(proposal.created_at).toLocaleDateString('ko-KR')}</td>
+                                    <td>{new Date(proposal.updated_at).toLocaleDateString('ko-KR')}</td>
                                     <td>
                                         <button
                                             className="btn btn-primary btn-sm"

@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Instruction = sequelize.define("instruction", {
       document_type_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       title: {
         type: Sequelize.STRING,
@@ -16,7 +16,6 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
     }, {
-      tableName: 'instructions', // 테이블 이름을 명시적으로 설정
       timestamps: true, // timestamps 설정
       createdAt: 'created_at',
       updatedAt: 'updated_at',

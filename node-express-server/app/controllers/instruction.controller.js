@@ -8,28 +8,38 @@ const fs = require('fs');
 // 파일 업로드를 위한 multer 설정
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, 'uploads/'); // 파일이 저장될 경로 설정
   },
   filename: function (req, file, cb) {
-    const fileName = Buffer.from(file.originalname, 'latin1').toString('utf8');
-    cb(null, Date.now() + path.extname(fileName));
+    // 파일명을 UTF-8로 변환하여 저장
+    const originalName = Buffer.from(file.originalname, 'latin1').toString('utf8'); 
+    console.log("Decoded Filename:", originalName); // 디코딩된 파일명 출력 확인
+    cb(null, originalName); // 파일명에 타임스탬프 추가하여 저장
   }
 });
 
-const upload = multer({ storage: storage });
 
+const upload = multer({ storage: storage });
 // Create and Save a new Instruction
 exports.create = [upload.single('file'), (req, res) => {
-  if (!req.body.title) {
-    res.status(400).send({ message: "Content can not be empty!" });
+  console.log("Request Body:", req.body);    // 텍스트 필드 데이터 확인
+  console.log("Request File:", req.file);    // 파일 데이터 확인
+
+  if (!req.body.content) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
     return;
   }
 
+  // 파일명이 깨지지 않도록 디코딩 처리
+  const decodedFileName = req.file ? Buffer.from(req.file.originalname, 'latin1').toString('utf8') : null;
+
   const instruction = {
-    document_type_id: req.body.document_type_id,
+    document_type_id: req.body.document_type_id || 1,
     title: req.body.title,
     content: req.body.content,
-    file_name: req.file ? req.file.originalname : null,
+    file_name: decodedFileName,  // 디코딩된 파일명 사용
     file_path: req.file ? req.file.path : null
   };
 
@@ -41,6 +51,8 @@ exports.create = [upload.single('file'), (req, res) => {
       });
     });
 }];
+
+
 
 // Retrieve all instructions
 exports.findAll = (req, res) => {
@@ -78,27 +90,61 @@ exports.findOne = (req, res) => {
 };
 
 // Update an Instruction by the id in the request
-exports.update = (req, res) => {
+exports.update = [upload.single('file'), (req, res) => {
+  console.log("Update Request Body:", req.body);
+  console.log("Update Request File:", req.file);
+
   const id = req.params.id;
 
-  Instruction.update(req.body, {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({ message: "Instruction was updated successfully." });
-      } else {
-        res.send({
-          message: `Cannot update Instruction with id=${id}. Maybe Instruction was not found or req.body is empty!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating Instruction with id=" + id
+  // 데이터베이스에서 기존 데이터를 가져옵니다.
+  Instruction.findByPk(id)
+      .then(instruction => {
+          if (!instruction) {
+              res.status(404).send({ message: `Cannot find Instruction with id=${id}.` });
+              return;
+          }
+
+          // 파일명이 깨지지 않도록 디코딩 처리
+          const decodedFileName = req.file ? Buffer.from(req.file.originalname, 'latin1').toString('utf8') : instruction.file_name;
+
+          // 새로운 파일이 없으면 기존 파일 경로와 이름을 유지합니다.
+          const updatedData = {
+              document_type_id: req.body.document_type_id || instruction.document_type_id,
+              title: req.body.title || instruction.title,
+              content: req.body.content || instruction.content,
+              file_name: req.file ? decodedFileName : instruction.file_name,  // 디코딩된 파일명 사용
+              file_path: req.file ? req.file.path : instruction.file_path
+          };
+
+          // 데이터베이스에서 업데이트를 수행합니다.
+          Instruction.update(updatedData, {
+              where: { id: id }
+          })
+          .then(num => {
+              if (num == 1) {
+                  res.send({ message: "Instruction was updated successfully." });
+              } else {
+                  res.send({
+                      message: `Cannot update Instruction with id=${id}. Maybe Instruction was not found or req.body is empty!`
+                  });
+              }
+          })
+          .catch(err => {
+              res.status(500).send({
+                  message: "Error updating Instruction with id=" + id
+              });
+          });
+      })
+      .catch(err => {
+          res.status(500).send({
+              message: "Error retrieving Instruction with id=" + id
+          });
       });
-    });
-};
+}];
+
+
+
+
 
 // Delete an Instruction with the specified id in the request
 exports.delete = (req, res) => {
