@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 //<<<<<<< HEAD
 //=======
 require('./app/routes/instruction.routes.js')(app);
+require('./app/routes/submission.routes.js')(app);
 
 //>>>>>>> fe
 // set port, listen for requests
