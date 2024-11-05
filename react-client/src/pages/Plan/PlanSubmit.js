@@ -11,12 +11,12 @@ const ProposalSubmit = () => {
     // 데이터를 가져오는 함수
     const retrieveProposals = () => {
         ProposalDataService.s_getAll()
-            .then(response => {                
+            .then(response => {
                 setProposals(response.data);  // 데이터 상태 업데이트
-                console.log(response.data);                
+                console.log(response.data);
             })
             .catch(e => {
-                console.log(e);                
+                console.log(e);
             });
     };
 
@@ -44,11 +44,6 @@ const ProposalSubmit = () => {
     // 리스트 항목 클릭 시 상세 페이지로 이동
     const handleProposalClick = (id) => {
         navigate(`/proposal/submit/${id}`);
-    };
-
-    // 수정 버튼 클릭 시 실행될 함수
-    const handleEditClick = (id) => {
-        navigate(`/proposal/submit/register/${id}`);
     };
 
     return (
@@ -93,13 +88,6 @@ const ProposalSubmit = () => {
                                     <td>{proposal.member}</td>
                                     <td>{new Date(proposal.createdAt).toLocaleDateString('ko-KR')}</td>
                                     <td>
-                                        <button
-                                            className="btn btn-primary btn-sm"
-                                            onClick={() => handleEditClick(proposal.id)}
-                                        >
-                                            수정
-                                        </button>
-                                        
                                         <button
                                             className="btn btn-danger btn-sm"
                                             onClick={() => deleteProposal(proposal.id)}

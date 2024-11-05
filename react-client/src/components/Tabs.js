@@ -30,11 +30,13 @@ const Tabs = ({ kind = '' }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // kind가 'main'이면 mainTabs를, 아니면 일반 tabs를 가져옴
   const getTabs = kind === 'main' ? mainTabs : tabs;
   
   // 첫 번째 경로 부분까지만 포함하도록 basePath 설정
   const basePath = `/${location.pathname.split('/')[1]}`;
 
+  // 현재 URL 경로를 기반으로 activeTab을 설정
   const [activeTab, setActiveTab] = useState(
     getTabs.find(tab => tab.route === location.pathname.split('/').pop())?.name || getTabs[0].name
   );
