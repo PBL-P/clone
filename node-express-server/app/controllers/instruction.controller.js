@@ -6,7 +6,6 @@ const path = require('path');
 const fs = require('fs');
 
 // 파일 업로드를 위한 multer 설정
-    cb(null, originalName); // 파일명에 타임스탬프 추가하여 저장
 const storageInstructions = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/instructions/'), // 'uploads/instructions/' 디렉토리 지정
   filename: (req, file, cb) => {
