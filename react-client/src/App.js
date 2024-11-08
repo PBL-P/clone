@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Routes, Route } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Menu from "./components/Menu";
@@ -31,6 +32,11 @@ import DesignDetail from "./pages/Design/DesignDetail";
 import Report from "./pages/Report/Report";
 import ReportSubmit from "./pages/Report/ReportSubmit";
 import ReportDetail from "./pages/Report/ReportDetail";
+
+import Announcements from "./pages/Announcement/Announcements";
+import AnnouncementDetail from "./pages/Announcement/AnnouncementDetail";
+import AddAnnouncement from "./pages/Announcement/AddAnnouncement";
+import EditAnnouncement from "./pages/Announcement/EditAnnouncement";
 
 
 class App extends Component {
@@ -121,6 +127,12 @@ class App extends Component {
                 <Route path="/report/submit/register/:id" element={<AddProposal text="결과 보고서 - 제출 버전 관리" kind="version" />} />
 
               {/* 결과 보고서 부분 종료 */}
+
+              {/* 공지사항 관련 라우트 */}
+              <Route path="/announcement" element={<Announcements />} />
+              <Route path="/announcement/add" element={<AddAnnouncement />} />
+              <Route path="/announcement/:id" element={<AnnouncementDetail />} />
+              <Route path="/announcement/edit/:id" element={<EditAnnouncement />} />
               
 
               
