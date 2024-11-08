@@ -3,10 +3,11 @@ module.exports = (sequelize, Sequelize) => {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
-      primaryKey: true,  // 이 부분 추가
+      primaryKey: true,
     },
     document_type_id: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING,  // `STRING` 타입으로 수정
+      allowNull: false,
     },
     title: {
       type: Sequelize.STRING,
@@ -25,10 +26,11 @@ module.exports = (sequelize, Sequelize) => {
     },
     filePath: {
       type: Sequelize.STRING,
-    },      
-    timestamps: true, // timestamps 설정
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    },
+  }, {
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
   });
 
   return Submission;

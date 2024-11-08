@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op;
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-<<<<<<< HEAD
+
 
 // multer 설정 - 파일 업로드 처리
 const storageSubmissions = multer.diskStorage({
@@ -22,7 +22,7 @@ const deleteFile = (filePath) => {
   if (filePath) {
     fs.unlink(filePath, (err) => {
       if (err) console.log("Failed to delete file:", err);
-=======
+
 const DocumentType = db.document_type; 
 
 // 파일 업로드를 위한 multer 설정
@@ -70,12 +70,12 @@ exports.create = [upload.single('file'), async (req, res) => {
 }];
 
 
-// 요청 경로에 따라 List 뽑기
 exports.findAll = async (req, res) => {
   const title = req.query.title;
-  
+
   // 요청된 API 경로를 기준으로 type_name을 설정
-  const pathPart = req.originalUrl.split('/')[2];
+  const pathPart = req.originalUrl.split('/')[3];
+
   let documentTypeKey = null;
 
   // 요청 경로에 따라 document_type 테이블의 key를 설정
@@ -83,37 +83,36 @@ exports.findAll = async (req, res) => {
   else if (pathPart === "plan") documentTypeKey = "pl";
   else if (pathPart === "design") documentTypeKey = "des";
   else if (pathPart === "report") documentTypeKey = "rep";
-  
+
   try {
-    // document_type 테이블에서 key를 기준으로 document_type_id 가져오기
-    console.log(documentTypeKey);
-    
     if (!documentTypeKey) {
       return res.status(404).send({ message: "Invalid document type in URL" });
     }
 
+    // 로그 추가: documentTypeKey 값 확인
+    console.log("Document Type Key:", documentTypeKey);
+
     // 조건절 설정: title과 document_type_id 조건을 추가
-    const condition = { 
+    const condition = {
       ...(title && { title: { [Op.like]: `%${title}%` } }),
-      document_type_id: documentTypeKey
+      document_type_id: documentTypeKey // 문자열 타입으로 비교됨
     };
 
     console.log("Condition:", condition); // 조건 확인용 로그
 
     // Submission 테이블에서 조건에 맞는 데이터 조회
     const data = await Submission.findAll({ where: condition });
-    
-    
     res.send(data);
   } catch (err) {
+    console.error("Error during findAll:", err); // 에러 로그 추가
     res.status(500).send({
       message: err.message || "Some error occurred while retrieving submissions."
->>>>>>> 33a19368e53ba1b65d89098895c82e108e14cfb4
+
     });
   }
 };
 
-<<<<<<< HEAD
+
 // 새로운 제출 항목 생성
 exports.create = [uploadSubmissions.single('file'), (req, res) => {
   if (!req.body.content) {
@@ -149,14 +148,16 @@ exports.findAll = (req, res) => {
 };
 
 // 특정 제출 항목 조회
-=======
+
+
+
 // Find a single Submission with an id
->>>>>>> 33a19368e53ba1b65d89098895c82e108e14cfb4
+
 exports.findOne = (req, res) => {
   const id = req.params.id;
-
+  
   Submission.findByPk(id)
-<<<<<<< HEAD
+
     .then(data => data ? res.send(data) : res.status(404).send({ message: `Cannot find Submission with id=${id}.` }))
     .catch(err => res.status(500).send({ message: "Error retrieving Submission with id=" + id }));
 };
@@ -188,7 +189,7 @@ exports.update = [uploadSubmissions.single('file'), (req, res) => {
 }];
 
 // 제출 항목 삭제
-=======
+
     .then(data => {
       if (data) {
         res.send(data);
@@ -265,13 +266,13 @@ exports.update = [upload.single('file'), (req, res) => {
 
 
 // Delete an Submission with the specified id in the request
->>>>>>> 33a19368e53ba1b65d89098895c82e108e14cfb4
+
 exports.delete = (req, res) => {
   const id = req.params.id;
 
   Submission.findByPk(id)
     .then(submission => {
-<<<<<<< HEAD
+
       if (submission) deleteFile(submission.file_path);
       return Submission.destroy({ where: { id: id } });
     })
@@ -299,7 +300,7 @@ exports.findByTitle = (req, res) => {
   Submission.findAll({ where: { title: { [Op.like]: `%${title}%` } } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message || "Error occurred while searching by title" }));
-=======
+
       if (submission && submission.file_path) {
         fs.unlink(submission.file_path, (err) => {
           if (err) console.log("Failed to delete file:", err);
@@ -353,5 +354,5 @@ exports.findByTitle = (req, res) => {
         message: err.message || "Error occurred while searching by title"
       });
     });
->>>>>>> 33a19368e53ba1b65d89098895c82e108e14cfb4
+
 };

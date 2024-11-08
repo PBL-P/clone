@@ -35,5 +35,5 @@ module.exports = app => {
   router.delete("/report/:id", instructions.delete);
   router.delete("/report", instructions.deleteAll);
 
-  app.use('/api', router);
+  app.use('/api/instruction', router);
 };

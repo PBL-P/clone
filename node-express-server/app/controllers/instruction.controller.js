@@ -64,7 +64,8 @@ exports.findAll = async (req, res) => {
   const title = req.query.title;
 
   // 요청된 API 경로를 기준으로 type_name을 설정
-  const pathPart = req.originalUrl.split('/')[2];
+  const pathPart = req.originalUrl.split('/')[3];
+  
   let documentTypeKey = null;
 
   // 요청 경로에 따라 document_type 테이블의 key를 설정

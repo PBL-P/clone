@@ -35,16 +35,21 @@ app.get("/", (req, res) => {
 });
 
 
+
 //<<<<<<< HEAD
 //=======
-<<<<<<< HEAD
+
 require('./app/routes/document.routes.js')(app);
-=======
+
 require('./app/routes/instruction.routes.js')(app);
 require('./app/routes/submission.routes.js')(app);
->>>>>>> 33a19368e53ba1b65d89098895c82e108e14cfb4
 
-//>>>>>>> fe
+
+require('./app/routes/submission.routes.js')(app);
+require('./app/routes/instruction.routes.js')(app);
+
+
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

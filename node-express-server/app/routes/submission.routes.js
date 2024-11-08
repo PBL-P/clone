@@ -1,10 +1,9 @@
 module.exports = app => {
-  const submission = require("../controllers/submission.controller.js"); // controller 경로 확인
-
-
+  const submission = require("../controllers/submission.controller.js");
   var router = require("express").Router();
 
-  // 제안서 - 작성 방법 및 예시 관련 라우트
+  // 제안서 관련 라우트
+
   router.get("/proposal/submit", submission.findAll);
   router.get("/proposal/submit/:id", submission.findOne);
   router.post("/proposal/submit/register", submission.create);
@@ -12,7 +11,7 @@ module.exports = app => {
   router.delete("/proposal/submit/:id", submission.delete);
   router.delete("/proposal/submit", submission.deleteAll);
 
-  // 기획서
+  // 기획서 관련 라우트
   router.get("/plan/submit", submission.findAll);
   router.get("/plan/submit/:id", submission.findOne);
   router.post("/plan/submit/register", submission.create);
@@ -20,7 +19,7 @@ module.exports = app => {
   router.delete("/plan/submit/:id", submission.delete);
   router.delete("/plan/submit", submission.deleteAll);
 
-  // 설계서
+  // 설계서 관련 라우트
   router.get("/design/submit", submission.findAll);
   router.get("/design/submit/:id", submission.findOne);
   router.post("/design/submit/register", submission.create);
@@ -28,7 +27,7 @@ module.exports = app => {
   router.delete("/design/submit/:id", submission.delete);
   router.delete("/design/submit", submission.deleteAll);
 
-  // 결과 보고서
+  // 결과 보고서 관련 라우트
   router.get("/report", submission.findAll);
   router.get("/report/:id", submission.findOne);
   router.post("/report/register", submission.create);
@@ -36,5 +35,6 @@ module.exports = app => {
   router.delete("/report/:id", submission.delete);
   router.delete("/report", submission.deleteAll);
 
-  app.use('/api', router);
+  // 기본 경로 설정
+  app.use('/api/submission', router);
 };
