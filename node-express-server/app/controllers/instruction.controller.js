@@ -4,6 +4,7 @@ const Op = db.Sequelize.Op;
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const DocumentType = db.document_type; 
 
 // 파일 업로드를 위한 multer 설정
 const storage = multer.diskStorage({
@@ -52,20 +53,44 @@ exports.create = [upload.single('file'), (req, res) => {
     });
 }];
 
-
-
-// Retrieve all instructions
-exports.findAll = (req, res) => {
+// 요청 경로에 따라 List 뽑기
+exports.findAll = async (req, res) => {
   const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  Instruction.findAll({ where: condition })
-    .then(data => res.send(data))
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving instructions."
-      });
+  // 요청된 API 경로를 기준으로 type_name을 설정
+  const pathPart = req.originalUrl.split('/')[3];
+  
+  let documentTypeKey = null;
+
+  // 요청 경로에 따라 document_type 테이블의 key를 설정
+  if (pathPart === "proposal") documentTypeKey = "pro";
+  else if (pathPart === "plan") documentTypeKey = "pl";
+  else if (pathPart === "design") documentTypeKey = "des";
+  else if (pathPart === "report") documentTypeKey = "rep";
+  
+  try {
+    // document_type 테이블에서 key를 기준으로 document_type_id 가져오기
+    
+    if (!documentTypeKey) {
+      return res.status(404).send({ message: "Invalid document type in URL" });
+    }
+
+    // 조건절 설정: title과 document_type_id 조건을 추가
+    const condition = { 
+      ...(title && { title: { [Op.like]: `%${title}%` } }),
+      document_type_id: documentTypeKey
+    };
+
+    console.log("Condition:", condition); // 조건 확인용 로그
+
+    // Instruction 테이블에서 조건에 맞는 데이터 조회
+    const data = await Instruction.findAll({ where: condition });
+    res.send(data);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving instructions."
     });
+  }
 };
 
 // Find a single Instruction with an id

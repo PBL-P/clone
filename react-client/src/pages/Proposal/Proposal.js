@@ -54,7 +54,7 @@ const Proposal = () => {
     return (
         <>
             <Title title="제안서 - 작성 방법 및 예시"/>
-            <Tabs />
+            <Tabs count={proposals.length}/>
 
             <>
                 <div style={{display: "flex", justifyContent: "space-between", alignItems:"center", padding:"8px 24px", borderBottom:"1px solid rgba(0,0,0,0.1)"}}>
