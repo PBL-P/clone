@@ -86,7 +86,7 @@ class App extends Component {
 
               {/* 제안서 부분 종료 */}
               
-              <Route path="/design" element={<DesignPage />} />
+              
               <Route path="/design/submit" element={<AddProposal text="설계서 - 작성 방법 및 예시" />} />
 
               {/* 기획서 부분 시작 */}
@@ -129,15 +129,11 @@ class App extends Component {
               {/* 결과 보고서 부분 종료 */}
 
               {/* 공지사항 관련 라우트 */}
-              <Route path="/announcement" element={<Announcements />} />
-              <Route path="/announcement/add" element={<AddAnnouncement />} />
-              <Route path="/announcement/:id" element={<AnnouncementDetail />} />
-              <Route path="/announcement/edit/:id" element={<EditAnnouncement />} />
-              
-
-              
-              
-
+              <Route path="/announcement" element={<Announcements/>} />
+              <Route path="/announcement/add" element={<AddAnnouncement/>} />
+              <Route path="/announcement/:id" element={<AnnouncementDetail/>} />
+              <Route path="/announcement/edit/:id" element={<EditAnnouncement/>}/>
+        
             </Routes>
           </Content>
         </div>
