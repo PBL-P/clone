@@ -1,8 +1,34 @@
 import http from "../http-common";
 
 class ProposalDataService {
-  // 제안서 - 작성 방법 및 예시
+  // 작성 방법 관련 API
   getAll() {
+    return http.get("/instructions");
+  }
+
+  get(id) {
+    return http.get(`/instructions/${id}`);
+  }
+
+  create(data) {
+    return http.post("/instructions", data);
+  }
+
+  update(id, data) {
+    return http.put(`/instructions/${id}`, data);
+  }
+
+  delete(id) {
+    return http.delete(`/instructions/${id}`);
+  }
+
+  deleteAll() {
+    return http.delete("/instructions");
+  }
+
+  findByTitle(title) {
+    return http.get(`/instructions?title=${title}`);
+
     return http.get("/instruction/proposal");  // proposals 경로로 변경
   }
 
@@ -27,9 +53,37 @@ class ProposalDataService {
   }
 	findByTitle(title) {
     return http.get(`/instruction/proposal/submit?title=${title}`);
+
   }
-  // 제안서 - 제출
+
+  // 제출 관련 API
   s_getAll() {
+    return http.get("/submissions");
+  }
+
+  s_get(id) {
+    return http.get(`/submissions/${id}`);
+  }
+
+  s_create(data) {
+    return http.post("/submissions", data);
+  }
+
+  s_update(id, data) {
+    return http.put(`/submissions/${id}`, data);
+  }
+
+  s_delete(id) {
+    return http.delete(`/submissions/${id}`);
+  }
+
+  s_deleteAll() {
+    return http.delete("/submissions");
+  }
+
+  s_findByTitle(title) {
+    return http.get(`/submissions?title=${title}`);
+
     return http.get("/submission/proposal/submit");  // proposals 경로로 변경
   }
 
@@ -55,6 +109,7 @@ class ProposalDataService {
 
   s_findByTitle(title) {
     return http.get(`/submission/proposal/submit?title=${title}`);
+
   }
 }
 

@@ -22,4 +22,8 @@ db.sequelize = sequelize;
 db.instruction = require("./instruction.model.js")(sequelize, Sequelize);
 db.submission = require("./submission.model.js")(sequelize, Sequelize);
 
+// 모델 등록 가즈아
+db.announcement = require("./announcement.model.js")(sequelize, Sequelize);
+db.comment = require("./comment.model.js")(sequelize, Sequelize);
+
 module.exports = db;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Routes, Route } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Menu from "./components/Menu";
@@ -19,6 +20,7 @@ import ProposalSubmit from "./pages/Proposal/ProposalSubmit";
 import ProposalDetail from "./pages/Proposal/ProposalDetail";
 import ProposalSubmitDetail from "./pages/Proposal/ProposalSubmitDetail";
 
+
 import Plan from "./pages/Plan/Plan";
 import PlanSubmit from "./pages/Plan/PlanSubmit";
 import PlanDetail from "./pages/Plan/PlanDetail";
@@ -31,6 +33,11 @@ import Report from "./pages/Report/Report";
 import ReportSubmit from "./pages/Report/ReportSubmit";
 import ReportDetail from "./pages/Report/ReportDetail";
 
+import Announcements from "./pages/Announcement/Announcements";
+import AnnouncementDetail from "./pages/Announcement/AnnouncementDetail";
+import AddAnnouncement from "./pages/Announcement/AddAnnouncement";
+import EditAnnouncement from "./pages/Announcement/EditAnnouncement";
+
 
 class App extends Component {
   render() {
@@ -40,8 +47,14 @@ class App extends Component {
         <div style={{ display: 'flex' }}>
           <Menu />
           <Content>
-            {/* Routes는 Router로 감싸져 있으므로 바로 사용 가능 */}
             <Routes>
+
+              <Route path="/" element={<Main />} />
+              <Route path="/main" element={<Main />} />
+              <Route path="/main/benefit" element={<Benefit />} />
+              <Route path="/main/method" element={<Method />} />
+              <Route path="/main/video" element={<Video />} />
+
             <Route path="/" element={<Main />}/>
               <Route path="/main" element={<Main />}/>
               <Route path="/main/benefit" element={<Benefit />}/>
@@ -58,6 +71,23 @@ class App extends Component {
                 <Route path="/proposal/register/:id" element={<AddProposal text="제안서 - 작성 방법 및 예시" kind="sample" />} />
                 <Route path="/proposal/submit/register/:id" element={<AddProposal text="제안서 - 제출 버전 관리" kind="version" />} />
               {/* 제안서 부분 종료 */}
+
+
+
+              {/* 제안서 작성 방법 및 제출 관련 경로 */}
+              <Route path="/instructions" element={<Proposal />} />
+              <Route path="/instructions/:id" element={<ProposalDetail />} />
+              <Route path="/instructions/register" element={<AddProposal text="제안서 - 작성 방법 및 예시" kind="sample" />} />
+
+              {/* 제안서 제출 관련 경로 */}
+              <Route path="/submissions" element={<ProposalSubmit />} />
+              <Route path="/submissions/register" element={<AddProposal text="제안서 - 제출 버전 관리" kind="version" />} />
+              <Route path="/submissions/:id" element={<ProposalDetail />} />          
+
+              {/* 제안서 부분 종료 */}
+              
+              
+              <Route path="/design/submit" element={<AddProposal text="설계서 - 작성 방법 및 예시" />} />
 
               {/* 기획서 부분 시작 */}
                 <Route path="/plan" element={<Plan />} />
@@ -97,10 +127,13 @@ class App extends Component {
                 <Route path="/report/submit/register/:id" element={<AddProposal text="결과 보고서 - 제출 버전 관리" kind="version" />} />
 
               {/* 결과 보고서 부분 종료 */}
-              
 
-              
-              
+              {/* 공지사항 관련 라우트 */}
+              <Route path="/announcement" element={<Announcements/>} />
+              <Route path="/announcement/add" element={<AddAnnouncement/>} />
+              <Route path="/announcement/:id" element={<AnnouncementDetail/>} />
+              <Route path="/announcement/edit/:id" element={<EditAnnouncement/>}/>
+        
             </Routes>
           </Content>
         </div>
@@ -108,5 +141,5 @@ class App extends Component {
     );
   }
 }
-//dev->be 장선
+
 export default App;
