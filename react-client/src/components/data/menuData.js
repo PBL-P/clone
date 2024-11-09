@@ -7,7 +7,7 @@ export const menuData = [
   { id: 3, label: '기획서', icon: <FaClipboardList />, route: '/plan' },
   { id: 4, label: '설계서', icon: <FaCog />, route: '/design' },
   { id: 5, label: '결과 보고서', icon: <FaSearch />, route: '/report' },
-  { id: 6, label: '공지사항', icon: <FaBell />, route: '/notice' }
+  { id: 6, label: '공지사항', icon: <FaBell />, route: '/announcement' }
 ];
 
 // 내용 안에 상단 Tabs 데이터
